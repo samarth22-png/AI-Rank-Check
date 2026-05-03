@@ -5,6 +5,7 @@ A modern Answer Engine Optimization (AEO) diagnostic application built with Stre
 ## ✨ Features
 
 - **Visibility Scoring**: Calculates a percentage-based score of how often your product appears in top AI recommendations for a specific query.
+- **Competitor Report Card**: Dynamically generates a report card (with grades A-F and AI Search Rank) and extracts exactly which top competitors are stealing your visibility.
 - **AI Recommendations**: Fetches real-time product recommendations from the Gemini AI model.
 - **Actionable Suggestions**: Automatically generates three actionable strategies to improve your product's naming, description, and positioning.
 - **Interactive "How to Implement" Chat**: A follow-up chat interface where you can ask the AI for step-by-step implementation guides based on the provided suggestions.
