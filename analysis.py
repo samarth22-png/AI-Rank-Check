@@ -21,3 +21,31 @@ def calculate_visibility(user_product, all_results):
     if len(results) == 0:
         return 0
     return round((count / len(results)) * 100, 2)
+
+def generate_report_card(user_product, product_list, score):
+    # Determine Grade
+    if score >= 80:
+        grade = "A 🏆"
+    elif score >= 50:
+        grade = "B ⭐"
+    elif score > 0:
+        grade = "C ⚠️"
+    else:
+        grade = "F ❌"
+
+    # Determine Rank and Competitors
+    rank = "Unranked"
+    competitors = []
+    
+    for i, product in enumerate(product_list):
+        if user_product.lower() in product.lower():
+            if rank == "Unranked": # Only take the highest rank if mentioned multiple times
+                rank = f"#{i + 1}"
+        else:
+            competitors.append(product)
+
+    return {
+        "grade": grade,
+        "rank": rank,
+        "competitors": competitors
+    }
