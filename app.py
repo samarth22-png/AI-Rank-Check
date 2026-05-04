@@ -1,7 +1,7 @@
 import streamlit as st
 import time
 from prompts import get_prompt
-from llm_calls import get_gemini_response
+from llm_calls import get_llm_response
 from analysis import extract_products, calculate_visibility, generate_report_card
 
 st.set_page_config(page_title="AEO Tool", layout="wide", initial_sidebar_state="expanded")
@@ -49,6 +49,7 @@ with st.sidebar:
     
     product = st.text_input("Your Product Name", placeholder="e.g. Acme Protein")
     query = st.text_input("Search Query", placeholder="e.g. best protein powder")
+    model_choice = st.selectbox("Select AI Model", ["Gemini", "OpenAI"])
     
     st.markdown("<br>", unsafe_allow_html=True)
     analyze_btn = st.button("🚀 Run Analysis")
@@ -65,7 +66,7 @@ if analyze_btn:
 
         with st.spinner("🔍 Fetching AI recommendations..."):
             time.sleep(0.5) # Slight delay for smooth UI feedback
-            response_text = get_gemini_response(prompt)
+            response_text = get_llm_response(prompt, model_choice)
             
             if "Error connecting" in response_text:
                 st.error(response_text)
@@ -91,7 +92,7 @@ Give 3 short actionable suggestions to improve:
 - positioning
 """
         with st.spinner("💡 Generating actionable suggestions..."):
-            suggestions = get_gemini_response(suggest_prompt)
+            suggestions = get_llm_response(suggest_prompt, model_choice)
             st.session_state.suggestions = suggestions
             st.session_state.analysis_done = True
             
@@ -177,15 +178,15 @@ User Follow-up Question: {follow_up}
 
 Provide a detailed, step-by-step actionable guide or answer based on the context above.
 """
-                    answer = get_gemini_response(context_prompt)
+                    answer = get_llm_response(context_prompt, model_choice)
                     st.write(answer)
                     
             # Save assistant message
             st.session_state.chat_history.append({"role": "assistant", "content": answer})
 
     with tab4:
-        st.subheader("Raw Recommendations from Gemini")
+        st.subheader(f"Raw Recommendations from {model_choice}")
         st.info(st.session_state.response_text)
 
 st.markdown("<br><br><br>", unsafe_allow_html=True)
-st.caption("Built by Samarth Agarwal 🚀 | Powered by Gemini AI ✅")
+st.caption("Built by Samarth Agarwal 🚀 | Powered by Gemini & OpenAI ✅")
